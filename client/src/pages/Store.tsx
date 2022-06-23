@@ -1,18 +1,17 @@
-import { Col, Row } from "react-bootstrap";
-import { StoreItem } from "../components";
+import { Box } from "@chakra-ui/react";
+import { StoreItem, Layout } from "../components";
 import storeItems from "../data/items.json";
 
 export default function Store() {
   return (
-    <>
+    <Layout isHeaderVisible>
       <h1>Store</h1>
-      <Row md={2} xs={1} lg={3} className="g-3">
-        {storeItems.map((item) => (
-          <Col key={item.id}>
-            <StoreItem {...item} />
-          </Col>
-        ))}
-      </Row>
-    </>
+
+      {storeItems.map((item) => (
+        <Box key={item.id}>
+          <StoreItem {...item} />
+        </Box>
+      ))}
+    </Layout>
   );
 }

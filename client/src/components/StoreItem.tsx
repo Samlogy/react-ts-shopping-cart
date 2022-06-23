@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap";
+import { Box } from "@chakra-ui/react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 
