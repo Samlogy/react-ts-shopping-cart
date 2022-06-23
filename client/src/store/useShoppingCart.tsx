@@ -23,7 +23,7 @@ function increase(cartItems: CartItem[], id: number) {
     const items = [...cartItems, { id, quantity: 1 }];
     return {
       cartItems: items,
-      quantityTotal: getQuantities(items),
+      quantityTotal: getQuantity(items),
     };
   } else {
     const items = cartItems.map((item: CartItem) => {
@@ -35,16 +35,17 @@ function increase(cartItems: CartItem[], id: number) {
     });
     return {
       cartItems: items,
-      quantityTotal: getQuantities(items),
+      quantityTotal: getQuantity(items),
     };
   }
 }
 function decrease(cartItems: CartItem[], id: number) {
   if (cartItems.find((item: CartItem) => item.id === id)?.quantity === 1) {
     const items = cartItems.filter((item: CartItem) => item.id !== id);
+    console.log(items);
     return {
       cartItems: items,
-      quantityTotal: getQuantities(items),
+      quantityTotal: getQuantity(items),
     };
   } else {
     const items = cartItems.map((item: CartItem) => {
@@ -54,9 +55,10 @@ function decrease(cartItems: CartItem[], id: number) {
         return item;
       }
     });
+    console.log(items);
     return {
       cartItems: items,
-      quantityTotal: getQuantities(items),
+      quantityTotal: getQuantity(items),
     };
   }
 }
@@ -65,7 +67,7 @@ function removeOne(cartItems: CartItem[], id: number) {
   const items = cartItems.filter((item: CartItem) => item.id !== id);
   return {
     cartItems: items,
-    quantityTotal: getQuantities(items),
+    quantityTotal: getQuantity(items),
   };
 }
 function removeAll() {
@@ -74,9 +76,9 @@ function removeAll() {
     quantityTotal: 0,
   };
 }
-function getQuantities(cartItems: CartItem[]) {
+function getQuantity(cartItems: CartItem[]) {
   return cartItems.reduce(
-    (quantity: any, item: any) => item.quantity + quantity,
+    (quantity: number, item: CartItem) => item.quantity + quantity,
     0
   );
 }
@@ -99,7 +101,7 @@ let shoppingCartStore = (set: any) => ({
     })),
   decreaseQuantity: (id: number) =>
     set((state: any) => ({
-      cartItems: decrease(state.cartItems, id),
+      ...decrease(state.cartItems, id),
     })),
 });
 

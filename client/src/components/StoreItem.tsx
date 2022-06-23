@@ -1,10 +1,9 @@
 import { Button, Card } from "react-bootstrap";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { useCallback, useState } from "react";
 
-import { formatCurrency } from "../utilities/formatCurrency";
 import useShoppingCart from "../store/useShoppingCart";
+import { formatCurrency } from "../utilities/formatCurrency";
 
 type StoreItemProps = {
   id: number;
