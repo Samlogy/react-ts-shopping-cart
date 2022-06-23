@@ -88,8 +88,7 @@ let shoppingCartStore = (set: any) => ({
   cartItems: [], // all items inside the cart
   quantityTotal: 0, // products qunatity
 
-  onOpen: () => set(() => ({ isOpen: true })),
-  onClose: () => set(() => ({ isOpen: false })),
+  setOpen: (val: boolean) => set(() => ({ isOpen: !val })),
   removeItems: () => set(() => ({ ...removeAll() })),
   removeItem: (id: number) =>
     set((state: any) => ({
