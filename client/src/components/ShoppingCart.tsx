@@ -1,4 +1,4 @@
-import { Offcanvas, Stack, Button } from "react-bootstrap";
+import { Offcanvas, Stack } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import storeItems from "../data/items.json";
 import useShoppingCart from "../store/useShoppingCart";

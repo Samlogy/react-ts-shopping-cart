@@ -1,6 +1,8 @@
 import { Button, Card } from "react-bootstrap";
-import { formatCurrency } from "../utilities/formatCurrency";
+import { FaTrash } from "react-icons/fa";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
+import { formatCurrency } from "../utilities/formatCurrency";
 import useShoppingCart from "../store/useShoppingCart";
 
 type StoreItemProps = {
@@ -47,15 +49,14 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
                 className="d-flex align-items-center justify-content-center"
                 style={{ gap: ".5rem" }}
               >
-                <Button onClick={() => decreaseQuantity(id)}>-</Button>
+                <AiOutlineMinus onClick={() => decreaseQuantity(id)} />
                 <div>
                   <span className="fs-3">{quantity}</span> in cart
                 </div>
-                <Button onClick={() => increaseQuantity(id)}>+</Button>
+
+                <AiOutlinePlus onClick={() => increaseQuantity(id)} />
               </div>
-              <Button onClick={() => removeItem(id)} variant="danger" size="sm">
-                Remove
-              </Button>
+              <FaTrash onClick={() => removeItem(id)} />
             </div>
           )}
         </div>
