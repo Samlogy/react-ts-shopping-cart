@@ -5,7 +5,7 @@ import useShoppingCart from "../store/useShoppingCart";
 
 export default function Navbar() {
   const onOpen = useShoppingCart((state: any) => state.onOpen);
-  const quantities = useShoppingCart((state: any) => state.quantities);
+  const quantityTotal = useShoppingCart((state: any) => state.quantityTotal);
 
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
@@ -40,7 +40,7 @@ export default function Navbar() {
               fontSize: ".7rem",
             }}
           >
-            {quantities}
+            {quantityTotal}
           </div>
         </Button>
       </Container>
