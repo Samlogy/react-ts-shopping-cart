@@ -13,7 +13,6 @@ type StoreItemProps = {
 };
 
 export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
-  const quantity = useShoppingCart((state: any) => state.quantity);
   const increaseQuantity = useShoppingCart(
     (state: any) => state.increaseQuantity
   );
@@ -21,7 +20,9 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
     (state: any) => state.decreaseQuantity
   );
   const removeItem = useShoppingCart((state: any) => state.removeItem);
-  console.log(quantity);
+  const cartItems = useShoppingCart((state: any) => state.cartItems);
+  const quantity = cartItems.find((item: any) => item.id === id)?.quantity || 0;
+
   return (
     <Card className="h-100">
       <Card.Img

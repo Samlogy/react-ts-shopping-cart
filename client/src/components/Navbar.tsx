@@ -1,13 +1,11 @@
-import { useMemo } from "react";
 import { Button, Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import useShoppingCart from "../store/useShoppingCart";
 
 export default function Navbar() {
   const onOpen = useShoppingCart((state: any) => state.onOpen);
-  const cartItems = useShoppingCart((state: any) => state.cartItems);
-  const quantity = useShoppingCart((state: any) => state.quantity);
+  const quantities = useShoppingCart((state: any) => state.quantities);
 
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
@@ -42,7 +40,7 @@ export default function Navbar() {
               fontSize: ".7rem",
             }}
           >
-            {quantity}
+            {quantities}
           </div>
         </Button>
       </Container>

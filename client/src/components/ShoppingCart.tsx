@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import storeItems from "../data/items.json";
 import useShoppingCart from "../store/useShoppingCart";
 import { formatCurrency } from "../utilities/formatCurrency";
-import CartItem from "./CartItem";
+import { CartItem } from "./";
 
 export default function ShoppingCart() {
   const onClose = useShoppingCart((state: any) => state.onClose);

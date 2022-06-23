@@ -9,64 +9,79 @@ type CartItem = {
 interface IShoppingCart {
   isOpen: boolean;
   quantity: number;
+  quantities: number;
   cartItems: CartItem[];
 
   setOpen: (isOpen: boolean) => void;
-  removeItems: any;
-  removeItem: any;
-  increaseQuantity: any;
-  decreaseQuantity: any;
-  getItemQuantity: any;
+  removeItems: () => void;
+  removeItem: (cartItems: CartItem[], id: number) => void;
+  increaseQuantity: (cartItems: CartItem[], id: number) => void;
+  decreaseQuantity: (cartItems: CartItem[], id: number) => void;
+  getItemQuantity: (id: number) => void;
 }
 
-function increase(cartItems: any, id: number) {
-  console.log(cartItems);
+function increase(cartItems: CartItem[], id: number) {
   if (cartItems.find((item: CartItem) => item.id === id) == null) {
-    return [...cartItems, { id, quantity: 1 }];
+    const items = [...cartItems, { id, quantity: 1 }];
+    return {
+      cartItems: items,
+      quantities: getQuantities(items),
+    };
   } else {
-    return cartItems.map((item: CartItem) => {
+    const items = cartItems.map((item: CartItem) => {
       if (item.id === id) {
         return { ...item, quantity: item.quantity + 1 };
       } else {
         return item;
       }
     });
+    return {
+      cartItems: items,
+      quantities: getQuantities(items),
+    };
   }
 }
 function decrease(cartItems: CartItem[], id: number) {
   if (cartItems.find((item: CartItem) => item.id === id)?.quantity === 1) {
-    return cartItems.filter((item: CartItem) => item.id !== id);
+    const items = cartItems.filter((item: CartItem) => item.id !== id);
+    return {
+      cartItems: items,
+      quantities: getQuantities(items),
+    };
   } else {
-    return cartItems.map((item: CartItem) => {
+    const items = cartItems.map((item: CartItem) => {
       if (item.id === id) {
         return { ...item, quantity: item.quantity - 1 };
       } else {
         return item;
       }
     });
+    return {
+      cartItems: items,
+      quantities: getQuantities(items),
+    };
   }
 }
-function getItemQuantity(cartItems: CartItem[], id: number) {
+function getQuantity(cartItems: CartItem[], id: number) {
   const quantity =
     cartItems.find((item: CartItem) => item.id === id)?.quantity || 0;
+  console.log(quantity);
   return quantity;
 }
 function removeOne(cartItems: CartItem[], id: number) {
+  const items = cartItems.filter((item: CartItem) => item.id !== id);
   return {
-    cartItems: cartItems.filter((item: CartItem) => item.id !== id),
-    quantity: cartItems.reduce(
-      (quantity: number, item: CartItem) => item.quantity + quantity,
-      0
-    ),
+    cartItems: items,
+    quantities: getQuantities(items),
   };
 }
 function removeAll() {
   return {
     cartItems: [],
-    quantity: 0,
+    quantities: 0,
   };
 }
-function computeQuantity(cartItems: any) {
+function getQuantities(cartItems: CartItem[]) {
   return cartItems.reduce(
     (quantity: any, item: any) => item.quantity + quantity,
     0
@@ -75,23 +90,24 @@ function computeQuantity(cartItems: any) {
 
 let shoppingCartStore = (set: any) => ({
   isOpen: false, // open / close --> shopping cart
-  cartItems: [], // items inside the cart
+  cartItems: [], // all items inside the cart
   quantity: 0, // product quantity
+  quantities: 0, // products qunatity
 
   onOpen: () => set(() => ({ isOpen: true })),
   onClose: () => set(() => ({ isOpen: false })),
-  removeItems: () => set((state: any) => ({ ...removeAll() })),
+  removeItems: () => set(() => ({ ...removeAll() })),
   removeItem: (id: number) =>
     set((state: any) => ({
       ...removeOne(state.cartItems, id),
     })),
   getItemQuantity: (id: number) =>
     set((state: any) => ({
-      quantity: getItemQuantity(state.cartItems, id),
+      quantity: getQuantity(state.cartItems, id),
     })),
   increaseQuantity: (id: number) =>
     set((state: any) => ({
-      cartItems: increase(state.cartItems, id),
+      ...increase(state.cartItems, id),
     })),
   decreaseQuantity: (id: number) =>
     set((state: any) => ({
