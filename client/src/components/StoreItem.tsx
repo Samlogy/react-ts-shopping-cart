@@ -1,6 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { useCallback, useState } from "react";
 
 import { formatCurrency } from "../utilities/formatCurrency";
 import useShoppingCart from "../store/useShoppingCart";
@@ -21,6 +22,7 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
   );
   const removeItem = useShoppingCart((state: any) => state.removeItem);
   const cartItems = useShoppingCart((state: any) => state.cartItems);
+
   const quantity = cartItems.find((item: any) => item.id === id)?.quantity || 0;
 
   return (
