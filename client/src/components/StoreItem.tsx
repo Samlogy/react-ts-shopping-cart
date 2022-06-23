@@ -1,7 +1,13 @@
-import { Box } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  useColorModeValue,
+  IconButton,
+} from "@chakra-ui/react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
-
 import useShoppingCart from "../store/useShoppingCart";
 import { formatCurrency } from "../utilities/formatCurrency";
 
@@ -16,53 +22,94 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
   const increaseQuantity = useShoppingCart(
     (state: any) => state.increaseQuantity
   );
+  const removeItem = useShoppingCart((state: any) => state.removeItem);
   const decreaseQuantity = useShoppingCart(
     (state: any) => state.decreaseQuantity
   );
-  const removeItem = useShoppingCart((state: any) => state.removeItem);
   const cartItems = useShoppingCart((state: any) => state.cartItems);
 
   const quantity = cartItems.find((item: any) => item.id === id)?.quantity || 0;
 
+  const bgColor = useColorModeValue("gray_9", "gray_2");
   return (
-    <Card className="h-100">
-      <Card.Img
-        variant="top"
-        src={imgUrl}
-        height="200px"
-        style={{ objectFit: "cover" }}
-      />
-      <Card.Body className="d-flex flex-column">
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{name}</span>
-          <span className="ms-2 text-muted">{formatCurrency(price)}</span>
-        </Card.Title>
-        <div className="mt-auto">
+    <Flex
+      key={id}
+      m=".5rem"
+      w="18rem"
+      alignItems="center"
+      justifyContent="center"
+      cursor={"pointer"}
+    >
+      <Box bg={bgColor} w="full" rounded="lg" shadow="lg" position="relative">
+        <Image
+          src={imgUrl}
+          alt={`Picture of ${name}`}
+          roundedTop="lg"
+          w="100%"
+          h="35vh"
+          m="1.5rem auto 0 auto"
+        />
+
+        <Box p="1rem">
+          <Flex justifyContent="space-between" alignContent="center">
+            <Box
+              fontSize="1.2rem"
+              fontWeight="semibold"
+              as="h4"
+              lineHeight="tight"
+            >
+              {name}
+            </Box>
+            <Box
+              fontSize="1.2rem"
+              fontWeight="semibold"
+              as="h4"
+              lineHeight="tight"
+            >
+              {formatCurrency(price)}
+            </Box>
+          </Flex>
+
           {quantity === 0 ? (
-            <Button variant="secondary" onClick={() => increaseQuantity(id)}>
-              + Add To Cart
+            <Button
+              variant={"solid"}
+              borderRadius="20px"
+              w="full"
+              mt=".75rem"
+              onClick={() => increaseQuantity(id)}
+            >
+              Add to Cart
             </Button>
           ) : (
-            <div
-              className="d-flex align-items-center flex-column"
-              style={{ gap: ".5rem" }}
-            >
-              <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}
-              >
-                <AiOutlineMinus onClick={() => decreaseQuantity(id)} />
-                <div>
-                  <span className="fs-3">{quantity}</span> in cart
-                </div>
+            <Flex flexDir={"column"} alignItems={"center"}>
+              <Flex alignItems={"center"} justify="center">
+                <IconButton
+                  aria-label="decrease-quantity"
+                  onClick={() => decreaseQuantity(id)}
+                  icon={<AiOutlineMinus />}
+                />
+                <Box>
+                  <Box as="span" className="fs-3">
+                    {quantity}
+                  </Box>{" "}
+                  in cart
+                </Box>
 
-                <AiOutlinePlus onClick={() => increaseQuantity(id)} />
-              </div>
-              <FaTrash onClick={() => removeItem(id)} />
-            </div>
+                <IconButton
+                  aria-label="increase-quantity"
+                  onClick={() => increaseQuantity(id)}
+                  icon={<AiOutlinePlus />}
+                />
+              </Flex>
+              <IconButton
+                aria-label="increase-quantity"
+                onClick={() => removeItem(id)}
+                icon={<FaTrash />}
+              />
+            </Flex>
           )}
-        </div>
-      </Card.Body>
-    </Card>
+        </Box>
+      </Box>
+    </Flex>
   );
 }

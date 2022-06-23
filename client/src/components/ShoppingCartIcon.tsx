@@ -19,7 +19,7 @@ export default function ShoppingCartIcon({ value }: { value: number }) {
           lineHeight="none"
           p=".1rem .25rem"
           color="white"
-          bg="error"
+          bg="red"
           display="flex"
           justifyContent="center"
           alignItems="center"

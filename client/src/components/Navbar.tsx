@@ -1,90 +1,34 @@
-export default function Navbar() {
-  const onOpen = useShoppingCart((state: any) => state.onOpen);
-  const quantityTotal = useShoppingCart((state: any) => state.quantityTotal);
-
-  return (
-    <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
-      <Container>
-        <Nav className="me-auto">
-          <Nav.Link to="/" as={NavLink}>
-            Home
-          </Nav.Link>
-          <Nav.Link to="/store" as={NavLink}>
-            Store
-          </Nav.Link>
-        </Nav>
-
-        <Button
-          onClick={() => onOpen()}
-          style={{ width: "2.5rem", height: "2.5rem", position: "relative" }}
-          variant="outline-primary"
-          className="rounded-circle"
-        >
-          <FaShoppingCart />
-
-          <div
-            className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
-            style={{
-              color: "white",
-              width: "1rem",
-              height: "1rem",
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              transform: "translate(25%, 25%)",
-              fontSize: ".7rem",
-            }}
-          >
-            {quantityTotal}
-          </div>
-        </Button>
-      </Container>
-    </NavbarBs>
-  );
-}
-
-import { FaShoppingCart } from "react-icons/fa";
-import useShoppingCart from "../store/useShoppingCart";
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Stack,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { FiSettings } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { DarkModeToggle, ShoppingCartIcon } from "../components";
+import useShoppingCart from "../store/useShoppingCart";
 
 const Links = [
   {
-    link: "/",
-    name: "Home",
+    route: "/",
+    label: "Home",
   },
   {
-    link: "/store",
-    name: "Store",
+    route: "/store",
+    label: "Store",
   },
 ];
 
 const NavLink = ({ children, link }: { children: ReactNode; link: string }) => {
-  const { pathname } = useRouter();
-  const isActive = pathname === `${link}`;
-
+  const isActive = false;
   const textColor = useColorModeValue("black", "#edf2f7");
 
   return (
-    <Link href={`${link}`}>
+    <Link to={`${link}`}>
       <Box
         px={2}
         py={1}
@@ -105,12 +49,10 @@ const NavLink = ({ children, link }: { children: ReactNode; link: string }) => {
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onOpen = useShoppingCart((state: any) => state.onOpen);
+  const setOpen = useShoppingCart((state: any) => state.setOpen);
   const quantityTotal = useShoppingCart((state: any) => state.quantityTotal);
 
   const bgColor = useColorModeValue("white", "gray_3");
-
-  const user = {};
 
   return (
     <Box bg={bgColor} px={4} pos="fixed" w="full" boxShadow={"md"} zIndex="100">
@@ -137,18 +79,16 @@ export default function NavBar() {
           <Box>Logo</Box>
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             {Links.map((link: any) => (
-              <NavLink key={link.link} link={link.link}>
-                {" "}
-                {link.name}{" "}
+              <NavLink key={link.route} link={link.route}>
+                {link.label}
               </NavLink>
             ))}
           </HStack>
         </HStack>
 
         <Flex alignItems={"center"}>
-          <SelectLanguage />
           <DarkModeToggle />
-          <ShoppingCartIcon value={products.length} />
+          <ShoppingCartIcon value={quantityTotal} />
         </Flex>
       </Flex>
     </Box>

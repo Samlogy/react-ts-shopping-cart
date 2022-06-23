@@ -1,4 +1,4 @@
-import { Button, Stack } from "react-bootstrap";
+import { Button, Stack } from "@chakra-ui/react";
 import storeItems from "../data/items.json";
 import { formatCurrency } from "../utilities/formatCurrency";
 

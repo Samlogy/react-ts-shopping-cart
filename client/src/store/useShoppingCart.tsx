@@ -42,7 +42,6 @@ function increase(cartItems: CartItem[], id: number) {
 function decrease(cartItems: CartItem[], id: number) {
   if (cartItems.find((item: CartItem) => item.id === id)?.quantity === 1) {
     const items = cartItems.filter((item: CartItem) => item.id !== id);
-    console.log(items);
     return {
       cartItems: items,
       quantityTotal: getQuantity(items),
@@ -55,7 +54,6 @@ function decrease(cartItems: CartItem[], id: number) {
         return item;
       }
     });
-    console.log(items);
     return {
       cartItems: items,
       quantityTotal: getQuantity(items),
