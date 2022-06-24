@@ -3,10 +3,10 @@ import {
   Flex,
   HStack,
   IconButton,
+  Stack,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { DarkModeToggle, ShoppingCartIcon } from "../components";
@@ -47,9 +47,8 @@ const NavLink = ({ children, link }: { children: ReactNode; link: string }) => {
 };
 
 export default function NavBar() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpen, setOpen] = useState(false);
 
-  const setOpen = useShoppingCart((state: any) => state.setOpen);
   const quantityTotal = useShoppingCart((state: any) => state.quantityTotal);
 
   const bgColor = useColorModeValue("white", "gray_3");
@@ -72,7 +71,7 @@ export default function NavBar() {
           }
           aria-label={"Toggle Menu"}
           display={{ md: "none" }}
-          onClick={isOpen ? onClose : onOpen}
+          onClick={() => setOpen(!isOpen)}
         />
 
         <HStack spacing={8} alignItems={"center"}>
@@ -91,6 +90,18 @@ export default function NavBar() {
           <ShoppingCartIcon value={quantityTotal} />
         </Flex>
       </Flex>
+
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as={"nav"} spacing={4}>
+            {Links.map((link: any) => (
+              <NavLink key={link.route} link={link.route}>
+                {link.label}
+              </NavLink>
+            ))}
+          </Stack>
+        </Box>
+      ) : null}
     </Box>
   );
 }
