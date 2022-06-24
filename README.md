@@ -1,6 +1,6 @@
 # React Shopping Cart
 
-### features:
+### Features:
 
 1. add item to cart
 2. increase quantity per item
@@ -11,7 +11,7 @@
 7. save all changes
 
 
-### tech stack:
+### Tech stack:
 
 1. React v18+
 2. Typescript v4+

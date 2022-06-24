@@ -50,7 +50,7 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
           h="35vh"
         />
 
-        <Box p="1rem">
+        <Box p="1rem" h="21vh">
           <Flex justifyContent="space-between" alignContent="center">
             <Box
               fontSize="1.2rem"
