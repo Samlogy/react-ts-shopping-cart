@@ -37,14 +37,14 @@ export default function ShoppingCart() {
         <DrawerHeader> Shopping Cart </DrawerHeader>
 
         <DrawerBody>
+          <IconButton
+            aria-label="decrease-quantity"
+            m="0 0 1rem auto"
+            p=".25rem"
+            onClick={() => removeItems()}
+            icon={<FaTrash size={16} />}
+          />
           <View cond={cartItems.length > 0}>
-            <IconButton
-              aria-label="decrease-quantity"
-              ml="auto"
-              p=".25rem"
-              onClick={() => removeItems()}
-              icon={<FaTrash size={16} />}
-            />
             {cartItems.map((item: any, idx: number) => (
               <CartItem key={idx} {...item} />
             ))}

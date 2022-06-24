@@ -5,6 +5,7 @@ import {
   Image,
   useColorModeValue,
   IconButton,
+  Heading,
 } from "@chakra-ui/react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
@@ -47,7 +48,6 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
           roundedTop="lg"
           w="100%"
           h="35vh"
-          m="1.5rem auto 0 auto"
         />
 
         <Box p="1rem">

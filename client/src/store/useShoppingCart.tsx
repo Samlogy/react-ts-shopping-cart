@@ -1,32 +1,28 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
-type CartItem = {
-  id: number;
-  quantity: number;
-};
+import { ICartItem } from "../lib/interface";
 
 interface IShoppingCart {
   isOpen: boolean;
   quantities: number;
-  quantityTotal: CartItem[];
+  quantityTotal: ICartItem[];
 
   setOpen: (isOpen: boolean) => void;
   removeItems: () => void;
-  removeItem: (cartItems: CartItem[], id: number) => void;
-  increaseQuantity: (cartItems: CartItem[], id: number) => void;
-  decreaseQuantity: (cartItems: CartItem[], id: number) => void;
+  removeItem: (cartItems: ICartItem[], id: number) => void;
+  increaseQuantity: (cartItems: ICartItem[], id: number) => void;
+  decreaseQuantity: (cartItems: ICartItem[], id: number) => void;
 }
 
-function increase(cartItems: CartItem[], id: number) {
-  if (cartItems.find((item: CartItem) => item.id === id) == null) {
+function increase(cartItems: ICartItem[], id: number) {
+  if (cartItems.find((item: ICartItem) => item.id === id) == null) {
     const items = [...cartItems, { id, quantity: 1 }];
     return {
       cartItems: items,
       quantityTotal: getQuantity(items),
     };
   } else {
-    const items = cartItems.map((item: CartItem) => {
+    const items = cartItems.map((item: ICartItem) => {
       if (item.id === id) {
         return { ...item, quantity: item.quantity + 1 };
       } else {
@@ -39,15 +35,15 @@ function increase(cartItems: CartItem[], id: number) {
     };
   }
 }
-function decrease(cartItems: CartItem[], id: number) {
-  if (cartItems.find((item: CartItem) => item.id === id)?.quantity === 1) {
-    const items = cartItems.filter((item: CartItem) => item.id !== id);
+function decrease(cartItems: ICartItem[], id: number) {
+  if (cartItems.find((item: ICartItem) => item.id === id)?.quantity === 1) {
+    const items = cartItems.filter((item: ICartItem) => item.id !== id);
     return {
       cartItems: items,
       quantityTotal: getQuantity(items),
     };
   } else {
-    const items = cartItems.map((item: CartItem) => {
+    const items = cartItems.map((item: ICartItem) => {
       if (item.id === id) {
         return { ...item, quantity: item.quantity - 1 };
       } else {
@@ -61,8 +57,8 @@ function decrease(cartItems: CartItem[], id: number) {
   }
 }
 
-function removeOne(cartItems: CartItem[], id: number) {
-  const items = cartItems.filter((item: CartItem) => item.id !== id);
+function removeOne(cartItems: ICartItem[], id: number) {
+  const items = cartItems.filter((item: ICartItem) => item.id !== id);
   return {
     cartItems: items,
     quantityTotal: getQuantity(items),
@@ -74,9 +70,9 @@ function removeAll() {
     quantityTotal: 0,
   };
 }
-function getQuantity(cartItems: CartItem[]) {
+function getQuantity(cartItems: ICartItem[]) {
   return cartItems.reduce(
-    (quantity: number, item: CartItem) => item.quantity + quantity,
+    (quantity: number, item: ICartItem) => item.quantity + quantity,
     0
   );
 }
